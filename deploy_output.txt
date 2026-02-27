@@ -1,0 +1,35 @@
+﻿Deploying NFAAgentPassport to bnbTestnet ...
+
+Deployer: 0x966D97Ae3B19405114EB7E991355f18b8a018c80
+Balance: 0.2989925631 BNB
+
+Ô£à NFAAgentPassport deployed to: 0x1e6EceDC3c9099aeE3dEc2e56eDd3541602738fD
+
+Add this to your .env:
+CONTRACT_ADDRESS=0x1e6EceDC3c9099aeE3dEc2e56eDd3541602738fD
+
+Waiting for block confirmations...
+Verifying contract on BSCScan...
+node.exe : [33m[WARNING] 
+Network and explorer-specific 
+api keys are deprecated in 
+favour of the new Etherscan v2 
+api. Support for v1 is expected 
+to end by May 31st, 2025. To 
+migrate, please specify a 
+single Etherscan.io api key the 
+apiKey config value.[39m
+At C:\Program 
+Files\nodejs\npx.ps1:29 char:3
++   & $NODE_EXE $NPX_CLI_JS 
+$args
++   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : N 
+   otSpecified: ([33m[WARNING  
+  ] ...fig value.[39m:String   
+ ) [], RemoteException
+    + FullyQualifiedErrorId : N 
+   ativeCommandError
+ 
+ÔÜá´©Å  Verification failed: You are using a deprecated V1 endpoint, switch to Etherscan API V2 using https://docs.etherscan.io/v2-migration

@@ -1,0 +1,22 @@
+{
+  "name": "nfa-agent-passport-v2",
+  "version": "1.0.0",
+  "description": "BAP-578 compliant Non-Fungible Agent protocol on BNB Chain",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network bnbTestnet",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "dotenv": "^16.3.0",
+    "ethers": "^6.9.0",
+    "groq-sdk": "^0.37.0",
+    "openai": "^4.20.0"
+  }
+}
