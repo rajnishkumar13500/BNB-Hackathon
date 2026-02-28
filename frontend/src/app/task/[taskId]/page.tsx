@@ -46,11 +46,15 @@ export default function TaskDetailPage() {
     });
 
     // Read task's agent owner
+    const tokenIdFromTask = task ? task[0] : undefined;
     const { data: agentOwner } = useReadContract({
         address: CONTRACT_ADDRESS,
         abi: CONTRACT_ABI,
         functionName: "ownerOf",
-        args: task ? [task[0]] : undefined,
+        args: tokenIdFromTask !== undefined ? [tokenIdFromTask] : undefined,
+        query: {
+            enabled: tokenIdFromTask !== undefined,
+        },
     });
 
     const { writeContract, data: txHash, isPending, reset } = useWriteContract();
@@ -74,7 +78,7 @@ export default function TaskDetailPage() {
     const deadlineDate = new Date(Number(deadline) * 1000);
     const isExpired = Date.now() > Number(deadline) * 1000;
     const isRequester = address && address.toLowerCase() === requester.toLowerCase();
-    const isAgentOwner = address && agentOwner && address.toLowerCase() === agentOwner.toLowerCase();
+    const isAgentOwner = address && agentOwner && address.toLowerCase() === (agentOwner as string).toLowerCase();
 
     // AI Chat: execute prompt
     const handleExecuteAI = async () => {
