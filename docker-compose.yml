@@ -1,0 +1,17 @@
+services:
+  # ── Next.js Frontend ──────────────────────────────────────────────────
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env.local
+    restart: unless-stopped
+
+  # ── Hardhat + Backend Tools (on-demand) ───────────────────────────────
+  hardhat:
+    build: .
+    env_file:
+      - ./.env
+    profiles:
+      - tools

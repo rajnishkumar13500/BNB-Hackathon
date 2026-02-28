@@ -1,0 +1,11 @@
+node_modules
+frontend
+cache
+artifacts
+.git
+.gitignore
+*.md
+deploy_output.txt
+deployed_addresses.txt
+*.sol
+assets
