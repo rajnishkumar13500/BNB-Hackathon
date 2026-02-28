@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend/public/logo.png" alt="NFA Passport Logo" width="160" />
+  <img src="assets/logo.png" alt="NFA Passport Logo" width="160" />
 </p>
 
 <h1 align="center">NFA Passport</h1>
@@ -146,61 +146,60 @@ graph TB
 ```mermaid
 classDiagram
     class NFAAgentPassport {
-        <<ERC721, IBAP578, ReentrancyGuard>>
-        +uint256 SLASH_PERCENT = 20
-        -uint256 _nextTokenId
-        -uint256 _nextTaskId
-        +mapping agents
-        +mapping categoryReputation
-        +mapping tasks
-        +mintAgent() uint256
-        +stake(tokenId) payable
-        +createTask(tokenId, category, deadline) payable uint256
-        +submitTaskResult(taskId, resultHash)
-        +validateTask(taskId)
-        +disputeTask(taskId)
-        +autoSlash(taskId)
-        +getAgentScore(tokenId) AgentScore
-        +getCategoryReputation(tokenId, category) uint256
-        +pause(tokenId)
-        +unpause(tokenId)
-        +terminate(tokenId)
-        +executeAction(tokenId, data) bytes
-        +upgradeLogic(tokenId, newLogic)
-        +fundAgent(tokenId) payable
-        +updateMetadata(tokenId, metadata)
-    end
+        uint256 SLASH_PERCENT
+        uint256 nextTokenId
+        uint256 nextTaskId
+        mapping agents
+        mapping categoryReputation
+        mapping tasks
+        mintAgent() uint256
+        stake(tokenId)
+        createTask(tokenId, category, deadline) uint256
+        submitTaskResult(taskId, resultHash)
+        validateTask(taskId)
+        disputeTask(taskId)
+        autoSlash(taskId)
+        getAgentScore(tokenId) AgentScore
+        getCategoryReputation(tokenId, category) uint256
+        pause(tokenId)
+        unpause(tokenId)
+        terminate(tokenId)
+        executeAction(tokenId, data) bytes
+        upgradeLogic(tokenId, newLogic)
+        fundAgent(tokenId)
+        updateMetadata(tokenId, metadata)
+    }
 
     class AgentData {
-        +uint256 stake
-        +uint256 reputation
-        +uint256 tasksCompleted
-        +uint256 tasksFailed
-        +uint256 totalValueHandled
-        +uint256 lastActionTimestamp
-        +bool active
-        +Status bapStatus
-        +address logicAddress
-        +AgentMetadata metadata
+        uint256 stake
+        uint256 reputation
+        uint256 tasksCompleted
+        uint256 tasksFailed
+        uint256 totalValueHandled
+        uint256 lastActionTimestamp
+        bool active
+        Status bapStatus
+        address logicAddress
+        AgentMetadata metadata
     }
 
     class Task {
-        +uint256 tokenId
-        +address requester
-        +Category category
-        +uint256 reward
-        +uint256 deadline
-        +bytes32 resultHash
-        +TaskStatus status
+        uint256 tokenId
+        address requester
+        Category category
+        uint256 reward
+        uint256 deadline
+        bytes32 resultHash
+        TaskStatus status
     }
 
     class AgentScore {
-        +uint256 stakeAmount
-        +uint256 reputation
-        +uint256 successRate
-        +uint256 tasksCompleted
-        +uint256 tasksFailed
-        +uint256 totalValueHandled
+        uint256 stakeAmount
+        uint256 reputation
+        uint256 successRate
+        uint256 tasksCompleted
+        uint256 tasksFailed
+        uint256 totalValueHandled
     }
 
     class Category {
@@ -479,31 +478,31 @@ gantt
     axisFormat %b %Y
     
     section Core Protocol
-    Smart Contract (BAP-578)       :done, core1, 2025-02, 2025-03
-    Staking & Slashing             :done, core2, 2025-02, 2025-03
-    Task Lifecycle & Escrow        :done, core3, 2025-02, 2025-03
-    Reputation Engine              :done, core4, 2025-02, 2025-03
+    Smart Contract (BAP-578)       :done, core1, 2026-02, 2026-03
+    Staking & Slashing             :done, core2, 2026-02, 2026-03
+    Task Lifecycle & Escrow        :done, core3, 2026-02, 2026-03
+    Reputation Engine              :done, core4, 2026-02, 2026-03
     
     section Frontend
-    Mint & Agent Dashboard         :done, fe1, 2025-02, 2025-03
-    Task Management UI             :done, fe2, 2025-02, 2025-03
-    Leaderboard                    :done, fe3, 2025-02, 2025-03
+    Mint & Agent Dashboard         :done, fe1, 2026-02, 2026-03
+    Task Management UI             :done, fe2, 2026-02, 2026-03
+    Leaderboard                    :done, fe3, 2026-02, 2026-03
     
     section Infrastructure
-    Docker Setup                   :done, infra1, 2025-03, 2025-03
-    CI/CD Pipeline                 :        infra2, 2025-04, 2025-05
-    Monitoring & Analytics         :        infra3, 2025-05, 2025-06
+    Docker Setup                   :done, infra1, 2026-02, 2026-03
+    CI/CD Pipeline                 :        infra2, 2026-04, 2026-05
+    Monitoring & Analytics         :        infra3, 2026-05, 2026-06
     
     section Growth
-    Mainnet Deployment             :        grow1, 2025-04, 2025-05
-    AI Framework Integrations      :        grow2, 2025-05, 2025-07
-    Task Marketplace               :        grow3, 2025-06, 2025-08
-    Reputation API for DeFi        :        grow4, 2025-07, 2025-09
+    Mainnet Deployment             :        grow1, 2026-04, 2026-05
+    AI Framework Integrations      :        grow2, 2026-05, 2026-07
+    Task Marketplace               :        grow3, 2026-06, 2026-08
+    Reputation API for DeFi        :        grow4, 2026-07, 2026-09
     
     section Credit Layer
-    NFA-Backed Lending             :        credit1, 2025-09, 2025-11
-    BNPL for AI Services           :        credit2, 2025-10, 2025-12
-    Cross-Chain Expansion          :        credit3, 2025-11, 2026-02
+    NFA-Backed Lending             :        credit1, 2026-09, 2026-11
+    BNPL for AI Services           :        credit2, 2026-10, 2026-12
+    Cross-Chain Expansion          :        credit3, 2026-11, 2027-02
 ```
 
 ### Feature Status
