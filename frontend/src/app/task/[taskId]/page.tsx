@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import {
     useReadContract,
@@ -61,6 +61,24 @@ export default function TaskDetailPage() {
     const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
         hash: txHash,
     });
+
+    // Auto-refresh task data when a transaction confirms
+    useEffect(() => {
+        if (isSuccess) {
+            refetch();
+            // Optional: clear the AI form state if the task was just submitted
+            if (aiResult) {
+                setPrompt("");
+                setAiResult("");
+                setResultHash("");
+            }
+            toast("Task state updated!", "success");
+
+            // Wait a moment for RPC nodes to strictly sync and fetch again to be safe
+            const timer = setTimeout(() => refetch(), 2500);
+            return () => clearTimeout(timer);
+        }
+    }, [isSuccess, refetch]);
 
     if (!task) {
         return (
@@ -199,55 +217,67 @@ export default function TaskDetailPage() {
                 </div>
             </div>
 
-            {/* AI Chat — Agent Owner executes AI */}
-            {isAgentOwner && status === "Created" && !isExpired && (
-                <div className="glass-card p-6 mb-6 animate-fade-in animate-pulse-glow">
-                    <h2 className="text-lg font-semibold text-white mb-4">🤖 AI Execution</h2>
-                    <p className="text-sm text-gray-400 mb-4">
-                        Enter a prompt to execute via AI. The result will be hashed and submitted on-chain.
-                    </p>
-                    <textarea
-                        placeholder={`Enter prompt for ${category} task...`}
-                        value={prompt}
-                        onChange={(e) => setPrompt(e.target.value)}
-                        rows={3}
-                        className="input-dark mb-3 resize-none"
-                    />
-                    {!aiResult ? (
-                        <button
-                            onClick={handleExecuteAI}
-                            disabled={isExecuting || !prompt.trim()}
-                            className="btn-primary w-full"
-                        >
-                            {isExecuting ? "🧠 Running AI..." : "🤖 Execute AI Task"}
-                        </button>
-                    ) : (
-                        <div className="space-y-3">
-                            <div className="rounded-lg bg-white/5 p-4 max-h-48 overflow-y-auto">
-                                <p className="text-xs text-gray-500 mb-1">AI Result:</p>
-                                <pre className="text-sm text-gray-200 whitespace-pre-wrap break-words">
-                                    {aiResult}
-                                </pre>
-                            </div>
-                            <div className="rounded-lg bg-white/5 p-3">
-                                <p className="text-xs text-gray-500">Result Hash:</p>
-                                <p className="text-xs text-yellow-400 font-mono break-all">{resultHash}</p>
-                            </div>
+            {/* AI Chat — Always visible, but disabled conditionally */}
+            <div className="glass-card p-6 mb-6 animate-fade-in">
+                <h2 className="text-lg font-semibold text-white mb-4">🤖 AI Execution</h2>
+
+                {status !== "Created" ? (
+                    <div className="p-4 rounded-lg bg-white/5 border border-white/10 text-center">
+                        <p className="text-gray-400">AI execution is locked because this task is already <span className="text-white font-semibold">{status}</span>.</p>
+                    </div>
+                ) : isExpired ? (
+                    <div className="p-4 rounded-lg bg-white/5 border border-white/10 text-center">
+                        <p className="text-red-400">Task deadline has passed. AI execution is disabled.</p>
+                    </div>
+                ) : (
+                    <>
+                        <p className="text-sm text-gray-400 mb-4">
+                            Enter a prompt to execute via AI. The result will be hashed and submitted on-chain.
+                        </p>
+                        <textarea
+                            placeholder={`Enter prompt for ${category} task...`}
+                            value={prompt}
+                            onChange={(e) => setPrompt(e.target.value)}
+                            rows={3}
+                            disabled={!isAgentOwner}
+                            className="input-dark mb-3 resize-none disabled:opacity-50"
+                        />
+                        {!aiResult ? (
                             <button
-                                onClick={handleSubmitHash}
-                                disabled={isPending || isConfirming}
-                                className="btn-primary w-full"
+                                onClick={handleExecuteAI}
+                                disabled={isExecuting || !prompt.trim() || !isAgentOwner}
+                                className={`btn-primary w-full ${!isAgentOwner && "opacity-50 cursor-not-allowed"}`}
                             >
-                                {isPending
-                                    ? "Confirm in Wallet..."
-                                    : isConfirming
-                                        ? "Submitting..."
-                                        : "📤 Submit Hash On-Chain"}
+                                {!address ? "🔌 Connect Wallet to Execute" : !isAgentOwner ? "🔒 Only Agent Owner can execute" : isExecuting ? "🧠 Running AI..." : "🤖 Execute AI Task"}
                             </button>
-                        </div>
-                    )}
-                </div>
-            )}
+                        ) : (
+                            <div className="space-y-3 animate-fade-in">
+                                <div className="rounded-lg bg-white/5 p-4 max-h-48 overflow-y-auto">
+                                    <p className="text-xs text-gray-500 mb-1">AI Result:</p>
+                                    <pre className="text-sm text-gray-200 whitespace-pre-wrap break-words">
+                                        {aiResult}
+                                    </pre>
+                                </div>
+                                <div className="rounded-lg bg-white/5 p-3">
+                                    <p className="text-xs text-gray-500">Result Hash:</p>
+                                    <p className="text-xs text-yellow-400 font-mono break-all">{resultHash}</p>
+                                </div>
+                                <button
+                                    onClick={handleSubmitHash}
+                                    disabled={isPending || isConfirming || !isAgentOwner}
+                                    className="btn-primary w-full"
+                                >
+                                    {isPending
+                                        ? "Confirm in Wallet..."
+                                        : isConfirming
+                                            ? "Submitting..."
+                                            : "📤 Submit Hash On-Chain"}
+                                </button>
+                            </div>
+                        )}
+                    </>
+                )}
+            </div>
 
             {/* Actions */}
             <div className="glass-card p-6 animate-fade-in">
