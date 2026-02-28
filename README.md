@@ -338,8 +338,8 @@ nfa-passport/
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/your-username/nfa-passport.git
-cd nfa-passport
+git clone https://github.com/rajnishkumar13500/BNB-Hackathon.git
+cd BNB-Hackathon
 
 # 2. Set up environment variables
 cp .env.example .env
@@ -369,8 +369,8 @@ docker compose run --rm hardhat npx hardhat run scripts/deploy.js --network bnbT
 
 ```bash
 # 1. Clone and install root dependencies
-git clone https://github.com/your-username/nfa-passport.git
-cd nfa-passport
+git clone https://github.com/rajnishkumar13500/BNB-Hackathon.git
+cd BNB-Hackathon
 npm install
 
 # 2. Set up environment variables
@@ -410,7 +410,6 @@ node backend/execute-task.js --prompt "Summarize BNB Chain" --taskId 0 --submit
 | User Segment | Use Case |
 |---|---|
 | **AI Agent Builders** | Give agents a verifiable, portable identity with economic stake |
-| **DeFi Protocols** | Use high-reputation NFAs as collateral for lending/BNPL |
 | **Task Requesters** | Post escrow-funded tasks with built-in accountability |
 | **NFT Traders** | Trade agents as economic assets — reputation + stake = value |
 | **Enterprise** | Deploy accountable AI workforce with transparent performance |
