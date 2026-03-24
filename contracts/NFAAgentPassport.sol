@@ -44,7 +44,7 @@ contract NFAAgentPassport is ERC721, IBAP578, ReentrancyGuard {
         TaskStatus status;
     }
 
-    // ─── State ───────────────────────────────────────────────────────────
+    // ─── State ──────────────────────────────────────────────────────────
 
     uint256 private _nextTokenId;
     uint256 private _nextTaskId;
